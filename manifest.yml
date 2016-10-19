@@ -1,0 +1,10 @@
+---
+applications:
+- name: node-fbbot  
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack.git#v1.5.21
+  memory: 128M
+  instances: 1
+  host: node-fbbot
+  path: .
+  services:
+   - bot_keys
