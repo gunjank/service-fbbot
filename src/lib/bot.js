@@ -2,6 +2,7 @@
 
 const Bot = require('messenger-bot')
 const settings = require('../config/settings');
+const Wreck = require('wreck');
 
 let bot = new Bot({
     token: settings.botKeysCreden.page_token,
@@ -18,6 +19,24 @@ bot.on('message', (payload, reply) => {
 
     bot.getProfile(payload.sender.id, (err, profile) => {
         if (err) throw err
+
+        var fName = `${profile.first_name}`;
+        var fName = `${profile.last_name}`;
+        var userId = payload.sender.id;
+        var payloadData = {
+            "first_name": fName,
+            "last_name": "df",
+            "user_id": userId,
+            "address": []
+        }
+
+        Wreck.post('https://service-user.cfapps.io/v1/user', {
+            payload: payloadData
+        }, (err, res, payload) => {
+            console.log("user data saved to db");
+        });
+
+
 
         reply({
             text
