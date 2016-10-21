@@ -21,11 +21,11 @@ bot.on('message', (payload, reply) => {
         if (err) throw err
 
         var fName = `${profile.first_name}`;
-        var fName = `${profile.last_name}`;
+        var lName = `${profile.last_name}`;
         var userId = payload.sender.id;
         var payloadData = {
             "first_name": fName,
-            "last_name": "df",
+            "last_name": lName,
             "user_id": userId,
             "address": []
         }
@@ -36,7 +36,11 @@ bot.on('message', (payload, reply) => {
             console.log("user data saved to db");
         });
 
+        //--------------------------------------
 
+
+
+        //-----------------------------
 
         reply({
             text
