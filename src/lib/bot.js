@@ -39,9 +39,9 @@ bot.on('message', (payload, reply) => {
         // "locale":"en_US","timezone":-4,"gender":"male"
 
 
-        userServiceHandler.updateInsertUser(payloadData);
+        // userServiceHandler.updateInsertUser(payloadData);
         // log.info("text  " + text);
-        parser.parse(text, function (text) {
+        parser.parse(text, payload, profile, function (text) {
             if (text == "1005") {
 
 

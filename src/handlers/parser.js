@@ -1,41 +1,21 @@
 'use strict';
 
+const userServiceHandler = require('../handlers/userServiceHandler');
 
 
-let handleAction = function (idx, cb) {
+let handleAction = function (idx, payload, profile, cb) {
+    //look for home 
+    userServiceHandler.getUser(payload.sender.id, function (response) {
+        if (response.body) {
+            cb("1005");
+        }
+    });
+    //cb("1005");
+    // if (idx == 1) {
+    //     let stationJson = `  {"station_id":"72","num_bikes_available":4,"num_bikes_disabled":0,"num_docks_available":35,"num_docks_disabled":0,"is_installed":1,"is_renting":1,"is_returning":1,"last_reported":1476898995,"_id":"5807b4d643700d000ec624d1"},{"station_id":"79","num_bikes_available":25,"num_bikes_disabled":5,"num_docks_available":3,"num_docks_disabled":0,"is_installed":1,"is_renting":1,"is_returning":1,"last_reported":1476899821,"_id":"5807b4d643700d000ec624d0"},{"station_id":"82","num_bikes_available":19,"num_bikes_disabled":0,"num_docks_available":8,"num_docks_disabled":0,"is_installed":1,"is_renting":1,"is_returning":1,"last_reported":1476899289,"_id":"5807b4d643700d000ec624cf"},{"station_id":"83","num_bikes_available":27,"num_bikes_disabled":1,"num_docks_available":34,"num_docks_disabled":0,"is_installed":1,"is_renting":1,"is_returning":1,"last_reported":1476899229,"_id":"5807b4d643700d000ec624ce"},{"station_id":"116","num_bikes_available":33,"num_bikes_disabled":0,"num_docks_available":6,"num_docks_disabled":0,"is_installed":1,"is_renting":1,"is_returning":1,"last_reported":1476899725,"_id":"5807b4d643700d000ec624cd"}
+    // }`
 
-    cb("1005");
-    if (idx == 1) {
-        let stationJson = `  {"station_id":"72","num_bikes_available":4,"num_bikes_disabled":0,"num_docks_available":35,"num_docks_disabled":0,"is_installed":1,"is_renting":1,"is_returning":1,"last_reported":1476898995,"_id":"5807b4d643700d000ec624d1"},{"station_id":"79","num_bikes_available":25,"num_bikes_disabled":5,"num_docks_available":3,"num_docks_disabled":0,"is_installed":1,"is_renting":1,"is_returning":1,"last_reported":1476899821,"_id":"5807b4d643700d000ec624d0"},{"station_id":"82","num_bikes_available":19,"num_bikes_disabled":0,"num_docks_available":8,"num_docks_disabled":0,"is_installed":1,"is_renting":1,"is_returning":1,"last_reported":1476899289,"_id":"5807b4d643700d000ec624cf"},{"station_id":"83","num_bikes_available":27,"num_bikes_disabled":1,"num_docks_available":34,"num_docks_disabled":0,"is_installed":1,"is_renting":1,"is_returning":1,"last_reported":1476899229,"_id":"5807b4d643700d000ec624ce"},{"station_id":"116","num_bikes_available":33,"num_bikes_disabled":0,"num_docks_available":6,"num_docks_disabled":0,"is_installed":1,"is_renting":1,"is_returning":1,"last_reported":1476899725,"_id":"5807b4d643700d000ec624cd"}
-    }`
-
-
-        // let add = {
-        //     "attachment": {
-        //         "type": "template",
-        //         "payload": {
-        //             "template_type": "button",
-        //             "text": "What do you want to do next?",
-        //             "buttons": [{
-        //                 "type": "web_url",
-        //                 "url": "https://petersapparel.parseapp.com",
-        //                 "title": "Show Website"
-        //             }, {
-        //                 "type": "postback",
-        //                 "title": "Start Chatting",
-        //                 "payload": "USER_DEFINED_PAYLOAD"
-        //             }]
-        //         }
-        //     }
-        // }
-
-
-
-        // bot.sendMessage("994195690708817", add, function (params) {
-        //     console.log("ok")
-        // });
-
-    }
+    // }
 }
 
 
@@ -58,16 +38,17 @@ const pattText = [{
 }];
 
 let parser = {
-    parse: function (chatMessage, cb) {
+    parse: function (chatMessage, payload, profile, cb) {
+
         var idx = 0;
         var matchFound = false;
         for (let p of pattText) {
             idx++;
             let patt = new RegExp(p.t, 'ig');
             if (patt.test(chatMessage)) {
-                p.action(idx, cb);
-                matchFound = true;
                 log.info("match text found " + p.t);
+                matchFound = true;
+                p.action(idx, payload, profile, cb);
                 break;
             }
         }
