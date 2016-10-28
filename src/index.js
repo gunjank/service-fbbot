@@ -9,13 +9,13 @@ const bunyan = require('bunyan');
 
 
 
-let app = express()
+
 
 global.log = bunyan.createLogger({
     name: 'node-fbbot'
 });
-
-
+const settings = require('./config/settings');
+let app = express();
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -27,17 +27,20 @@ let webHookRoutes = require('./routes/webHookRoutes')(app);
 let threadSettingRoutes = require('./routes/threadSettingRoutes')(app);
 
 //**Test code start 
-var parser = require('./handlers/parser');
+// var decisionTreeHandler = require('./handlers/decisionTreeHandler');
+// let parsePayload = {
+//     "userId": "994195690708817",
+//     "text": "show ME BIKES NEAR home1"
+// };
+// decisionTreeHandler.parseMessage(parsePayload, function (error, responseMessage) {
+//     if (responseMessage != "") {
+//         let text = responseMessage;
+//         console.log(text);
+//     }
 
-var text = "show me bikes near { home }";
-var payload = {};
-payload.sender = {};
-payload.sender.id = '994195690708817';
-var profile = {};
-parser.parse(text, payload, profile, function (text) {
-
-    console.log("parse " + text)
-});
+// });
 
 //**Test code end
-http.createServer(app).listen(process.env.PORT || 3000)
+let server = http.createServer(app).listen(settings.port, function () {
+    log.info("Server is running ");
+});

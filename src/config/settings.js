@@ -21,10 +21,25 @@ let botKeysServiceCredentials = function () {
 
 }
 
+let getUserService = function () {
+    if (process.env.NODE_ENV === 'PRODUCTION') {
+        return `https://service-user.cfapps.io/v1/user`;
+    } else {
+        return `http://localhost:3001/v1/user`;
+    }
+}
+let getDecisionTreeService = function () {
+    if (process.env.NODE_ENV === 'PRODUCTION') {
+        return `https://service-decision-tree.cfapps.io/v1`;
+    } else {
+        return `http://localhost:3002/v1`;
+    }
+}
+
 let settings = {
     botKeysCreden: botKeysServiceCredentials(),
-    userService: `https://service-user.cfapps.io/v1/user`,
-    userServiceLocal: `http://localhost:3001/v1/user`,
+    userService: getUserService(),
+    decisionTreeService: getDecisionTreeService(),
     port: process.env.PORT || '3000',
 
 
