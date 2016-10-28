@@ -4,7 +4,8 @@ const Bot = require('messenger-bot')
 const settings = require('../config/settings');
 const userServiceHandler = require('../handlers/userServiceHandler');
 const decisionTreeHandler = require('../handlers/decisionTreeHandler');
-const parser = require('../handlers/parser');
+
+const generator = require('./botTemplateGenerator');
 
 let bot = new Bot({
     token: settings.botKeysCreden.page_token,
@@ -37,17 +38,28 @@ bot.on('message', (payload, reply) => {
         };
 
         userServiceHandler.updateInsertUser(payloadData);
-        decisionTreeHandler.parseMessage(parsePayload, function (error, responseMessage) {
-            if (responseMessage != "") {
-                text = responseMessage;
+        decisionTreeHandler.parseMessage(parsePayload, function (error, responseMessage, data) {
+
+            if (data) {
+
+                let buttonTemplate = generator.buttonTemplate("Station near by", data);
+                //let buttonTemplate = generator.genericMapTemplate();
+
+                //log.info("************ buttonTemplate " + JSON.stringify(buttonTemplate));
+                bot.sendMessage(payload.sender.id, buttonTemplate, function (params) {
+                    console.log("bot send message called with button template to " + payload.sender.id)
+                });
+            } else {
+                if (responseMessage != null && responseMessage != "") {
+                    text = responseMessage;
+                };
+                //log.info("************ responseMessage " + responseMessage);
+                reply({
+                    text
+                });
+
             }
-            reply({
-                text
-            }, (error) => {
-                console.log("err " + JSON.stringify(err))
-                if (err) throw err
-                console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
-            })
+
         }); //decisionTreeHandler end
 
 

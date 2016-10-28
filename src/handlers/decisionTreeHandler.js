@@ -3,6 +3,7 @@
 
 var request = require('request');
 const settings = require('../config/settings');
+let ParsedMessage = require('../models/parsedMessage');
 
 
 let decisionTreeServiceHandler = {
@@ -15,8 +16,33 @@ let decisionTreeServiceHandler = {
         }, function (error, response, body) {
             if (error) log.error("Decision tree message service failed and error  " + error);
             if (response) log.info("Decision tree message service successful and response status message is " + response.statusMessage);
-            // if (body) log.debug("User update/insert service body -  " + body);
-            cb(error, body);
+            // log.info("************ body " + JSON.stringify(body));
+            if (body != null) {
+                let parsedMessage = new ParsedMessage(body);
+                switch (parsedMessage.messageCode) {
+                    case 0: //error 
+                        cb(null, parsedMessage.message);
+                        break;
+                    case 1: //station list 
+                        cb(null, "", parsedMessage.data);
+                        break;
+                    case 2: //asking for address
+                        //
+                        cb(null, parsedMessage.data.msg);
+                        break;
+                    case 3: //address_saved
+                        //
+                        cb(null, parsedMessage.data.msg);
+                        break;
+                    default:
+                        cb(null, parsedMessage.message);
+                        break;
+                }
+            } else {
+                log.info("Decision tree message service - body is null");
+                cb(error, null);
+            }
+
 
         });
     }
