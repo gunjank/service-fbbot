@@ -38,6 +38,7 @@ bot.on('message', (payload, reply) => {
         };
 
         userServiceHandler.updateInsertUser(payloadData);
+        console.log("original message " + parsePayload);
         decisionTreeHandler.parseMessage(parsePayload, function (error, responseMessage, data) {
 
             if (data) {

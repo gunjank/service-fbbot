@@ -19,8 +19,9 @@ let staticButton = {
     "payload": "USER_DEFINED_PAYLOAD"
 };
 let staticMapUrlGenerator = function (data) {
-    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?size=480x480`;
-    const mapProperty = `?size=200x200&zoom=13&center=` + data.payload.lat + `,` + data.payload.lon;
+    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap`;
+    const mapProperty = `?size=240x240`;
+    //&zoom=13&center=` + data.payload.lat + `,` + data.payload.lon;//with markers no need to specify center and zoom
 
     let items = data.data;
     let markers = `&markers=icon:https://chart.googleapis.com/chart?chst=d_bubble_text_small%26chld=bb%257C`;
@@ -28,12 +29,15 @@ let staticMapUrlGenerator = function (data) {
     let colorCode = `%257CFFF%257C000`;
     // let addressLoc = `|` + lat + `,` + lon;
     let fullMarkerStr = "";
+    let idx = 0;
     for (let item of items) {
 
         //let labelText = "ST-" + item.station_id + ",BA-" + item.num_bikes_available + ",DA-" + item.num_docks_available;
         let labelText = "BA-" + item.num_bikes_available;
         let addressLoc = `|` + item.lat + `,` + item.lon;
-        fullMarkerStr += markers + labelText + colorCode + addressLoc
+        //let strJoiner = (idx === 0) ? `&` : `&`;
+        fullMarkerStr += markers + labelText + colorCode + addressLoc;
+        idx++;
     }
     return mapUrl + mapProperty + fullMarkerStr;
 }
@@ -59,19 +63,28 @@ let generator = {
         //"image_url": "https:\/\/maps.googleapis.com\/maps\/api\/staticmap?size=764x400&center=" + lat + "," + long + "&zoom=25&markers=" + lat + "," + long,     
 
         let staticImageUrl = staticMapUrlGenerator(data);
-        console.log("test url for map " + staticImageUrl);
+
+        console.log(" url for map --  " + staticImageUrl);
+        // let genericMapTemplate = {
+        //     "attachment": {
+        //         "type": "template",
+        //         "payload": {
+        //             "template_type": "generic",
+        //             "elements": {
+        //                 "element": {
+        //                     "title": "Stations near by",
+        //                     "image_url": staticImageUrl,
+        //                     "item_url": staticImageUrl
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         let genericMapTemplate = {
             "attachment": {
-                "type": "template",
+                "type": "image",
                 "payload": {
-                    "template_type": "generic",
-                    "elements": {
-                        "element": {
-                            "title": "Stations near by",
-                            "image_url": staticImageUrl,
-                            "item_url": ""
-                        }
-                    }
+                    "url": staticImageUrl
                 }
             }
         }
