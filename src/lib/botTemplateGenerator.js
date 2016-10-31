@@ -20,7 +20,7 @@ let staticButton = {
 };
 let staticMapUrlGenerator = function (data) {
     const mapUrl = `https://maps.googleapis.com/maps/api/staticmap`;
-    const mapProperty = `?size=240x240`;
+    const mapProperty = `?size=360x360`;
     //&zoom=13&center=` + data.payload.lat + `,` + data.payload.lon;//with markers no need to specify center and zoom
 
     let items = data.data;
@@ -59,28 +59,35 @@ let generator = {
         }
         return staticButtonTemplate;
     },
-    genericMapTemplate: function (data) {
+    genericTemplate: function (data) {
         //"image_url": "https:\/\/maps.googleapis.com\/maps\/api\/staticmap?size=764x400&center=" + lat + "," + long + "&zoom=25&markers=" + lat + "," + long,     
 
-        let staticImageUrl = staticMapUrlGenerator(data);
+        //let staticImageUrl = staticMapUrlGenerator(data);
 
         console.log(" url for map --  " + staticImageUrl);
-        // let genericMapTemplate = {
-        //     "attachment": {
-        //         "type": "template",
-        //         "payload": {
-        //             "template_type": "generic",
-        //             "elements": {
-        //                 "element": {
-        //                     "title": "Stations near by",
-        //                     "image_url": staticImageUrl,
-        //                     "item_url": staticImageUrl
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        let genericMapTemplate = {
+        let template = {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": {
+                        "element": {
+                            "title": "Stations near by",
+                            "image_url": "http://",
+                            "item_url": "http://"
+                        }
+                    }
+                }
+            }
+        }
+
+        return template;
+
+    },
+    imageTemplate: function (data) {
+        let staticImageUrl = staticMapUrlGenerator(data);
+        console.log(" url for map --  " + staticImageUrl);
+        let template = {
             "attachment": {
                 "type": "image",
                 "payload": {
@@ -88,10 +95,7 @@ let generator = {
                 }
             }
         }
-        return genericMapTemplate;
-
-
-        //
+        return template;
     }
 }
 module.exports = generator;

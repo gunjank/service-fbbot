@@ -38,17 +38,18 @@ bot.on('message', (payload, reply) => {
         };
 
         userServiceHandler.updateInsertUser(payloadData);
-        console.log("original message " + parsePayload);
+        console.log("original message " + parsePayload.text);
         decisionTreeHandler.parseMessage(parsePayload, function (error, responseMessage, data) {
 
             if (data) {
 
                 //let buttonTemplate = generator.buttonTemplate("Station near by", data);
-                let buttonTemplate = generator.genericMapTemplate(data);
+                //let buttonTemplate = generator.genericTemplate(data);
+                let imageTemplate = generator.imageTemplate(data);
 
                 //log.info("************ buttonTemplate " + JSON.stringify(buttonTemplate));
-                bot.sendMessage(payload.sender.id, buttonTemplate, function (params) {
-                    console.log("bot send message called with button template to " + payload.sender.id)
+                bot.sendMessage(payload.sender.id, imageTemplate, function (params) {
+                    console.log("bot send message called with required template to " + payload.sender.id);
                 });
             } else {
                 if (responseMessage != null && responseMessage != "") {
