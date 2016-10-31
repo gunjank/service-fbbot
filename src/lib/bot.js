@@ -42,8 +42,8 @@ bot.on('message', (payload, reply) => {
 
             if (data) {
 
-                let buttonTemplate = generator.buttonTemplate("Station near by", data);
-                //let buttonTemplate = generator.genericMapTemplate();
+                //let buttonTemplate = generator.buttonTemplate("Station near by", data);
+                let buttonTemplate = generator.genericMapTemplate(data);
 
                 //log.info("************ buttonTemplate " + JSON.stringify(buttonTemplate));
                 bot.sendMessage(payload.sender.id, buttonTemplate, function (params) {
