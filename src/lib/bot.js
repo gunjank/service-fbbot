@@ -18,22 +18,22 @@ bot.on('error', (err) => {
 })
 
 bot.on('message', (payload, reply) => {
-    let text = payload.message.text
-
-    bot.getProfile(payload.sender.id, (err, profile) => {
+    let text = payload.message.text;
+    let senderId = payload.sender.id;
+    bot.getProfile(senderId, (err, profile) => {
         if (err) throw err
 
-        var fName = `${profile.first_name}`;
-        var lName = `${profile.last_name}`;
-        var userId = payload.sender.id;
-        var payloadData = {
+        let fName = `${profile.first_name}`;
+        let lName = `${profile.last_name}`;
+
+        let payloadData = {
             "first_name": fName,
             "last_name": lName,
-            "user_id": userId
+            "user_id": senderId
 
         }
         let parsePayload = {
-            userId: userId,
+            userId: senderId,
             text: text
         };
 
@@ -43,14 +43,18 @@ bot.on('message', (payload, reply) => {
 
             if (data) {
 
-                //let buttonTemplate = generator.buttonTemplate("Station near by", data);
+                let buttonTemplate = generator.buttonTemplate("Stations near by", data);
                 //let buttonTemplate = generator.genericTemplate(data);
                 let imageTemplate = generator.imageTemplate(data);
 
                 //log.info("************ buttonTemplate " + JSON.stringify(buttonTemplate));
-                bot.sendMessage(payload.sender.id, imageTemplate, function (params) {
-                    console.log("bot send message called with required template to " + payload.sender.id);
+                bot.sendMessage(senderId, imageTemplate, function (params) {
+                    console.log("bot send message called with imageTemplate template to " + senderId);
+                    bot.sendMessage(senderId, buttonTemplate, function (params) {
+                        console.log("bot send message called with buttonTemplate template to " + senderId);
+                    });
                 });
+
             } else {
                 if (responseMessage != null && responseMessage != "") {
                     text = responseMessage;
