@@ -20,7 +20,7 @@ bot.on('error', (err) => {
 bot.on('message', (payload, reply) => {
     let text = payload.message.text;
     let senderId = payload.sender.id;
-    console.log(JSON.stringify("original message payload " + payload));
+    console.log("original message payload " + JSON.stringify(payload));
     bot.getProfile(senderId, (err, profile) => {
         if (err) throw err
 
