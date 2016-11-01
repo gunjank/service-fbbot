@@ -20,6 +20,7 @@ bot.on('error', (err) => {
 bot.on('message', (payload, reply) => {
     let text = payload.message.text;
     let senderId = payload.sender.id;
+    console.log(JSON.stringify("original message payload " + payload));
     bot.getProfile(senderId, (err, profile) => {
         if (err) throw err
 
@@ -38,6 +39,10 @@ bot.on('message', (payload, reply) => {
         };
 
         userServiceHandler.updateInsertUser(payloadData);
+
+        if (!parsePayload.text) {
+            return;
+        }
         console.log("original message " + parsePayload.text);
         decisionTreeHandler.parseMessage(parsePayload, function (error, responseMessage, data) {
 
