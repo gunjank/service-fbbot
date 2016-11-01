@@ -1,19 +1,14 @@
 {
-  "name": "node-fbbot",
+  "name": "service-fbbot",
   "version": "1.0.0",
   "description": "FB Bot webhook ",
   "main": "index.js",
   "dependencies": {
-    "argify": "0.0.3",
     "body-parser": "^1.15.2",
     "boom": "^2.8.0",
     "bunyan": "^1.8.1",
     "cfenv": "^1.0.3",
-    "config": "^1.14.0",
-    "config-local": "0.0.1",
-    "debug": "^2.2.0",
     "express": "^4.14.0",
-    "glob": "^5.0.12",
     "good": "^6.2.0",
     "good-console": "^6.1.2",
     "good-file": "^5.0.1",
@@ -24,12 +19,10 @@
     "joi": "^9.1.0",
     "lodash": "^3.10.0",
     "lout": "^6.2.3",
-    "lru-cache": "^2.6.5",
     "messenger-bot": "^2.4.0",
     "q": "^1.4.1",
     "request": "^2.75.0",
-    "vision": "^4.1.0",
-    "wreck": "^10.0.0"
+    "vision": "^4.1.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -38,16 +31,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gunjank/node-fbbot.git"
+    "url": "git+https://github.com/gunjank/service-fbbot.git"
   },
   "author": "gunjan kumar - GK82893",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gunjank/node-fbbot/issues"
+    "url": "https://github.com/gunjank/service-fbbot/issues"
   },
   "engines": {
     "node": "4.6.x",
     "npm": "2.15.x"
   },
-  "homepage": "https://github.com/gunjank/node-fbbot#readme"
+  "homepage": "https://github.com/gunjank/service-fbbot#readme"
 }

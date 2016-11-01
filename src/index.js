@@ -1,24 +1,13 @@
 'use strict'
 
-
 const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const bunyan = require('bunyan');
 global.log = bunyan.createLogger({
-    name: 'node-fbbot'
+    name: 'service-fbbot'
 });
 const settings = require('./config/settings');
-// const generator = require('./lib/botTemplateGenerator');
-// const userServiceHandler = require('./handlers/userServiceHandler');
-
-
-
-
-
-
-
-
 let app = express();
 
 app.use(bodyParser.json())
