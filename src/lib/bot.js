@@ -48,17 +48,22 @@ bot.on('message', (payload, reply) => {
 
             if (data) {
 
-                let buttonTemplate = generator.buttonTemplate("Stations near by", data);
-                //let buttonTemplate = generator.genericTemplate(data);
-                let imageTemplate = generator.imageTemplate(data);
+                // let buttonTemplate = generator.buttonTemplate("Stations near by", data);
+                let genericTemplate = generator.genericTemplate(data);
+                //let imageTemplate = generator.imageTemplate(data);
 
-                //log.info("************ buttonTemplate " + JSON.stringify(buttonTemplate));
-                bot.sendMessage(senderId, imageTemplate, function (params) {
-                    console.log("bot send message called with imageTemplate template to " + senderId);
-                    bot.sendMessage(senderId, buttonTemplate, function (params) {
-                        console.log("bot send message called with buttonTemplate template to " + senderId);
-                    });
+                //log.info("************ buttonTemplate " + JSON.stringify(genericTemplate));
+
+                bot.sendMessage(senderId, genericTemplate, function (params) {
+                    console.log("bot send message called with genericTemplate template to " + senderId);
                 });
+
+                // bot.sendMessage(senderId, imageTemplate, function (params) {
+                //     console.log("bot send message called with imageTemplate template to " + senderId);
+                //     bot.sendMessage(senderId, buttonTemplate, function (params) {
+                //         console.log("bot send message called with buttonTemplate template to " + senderId);
+                //     });
+                // });
 
             } else {
                 if (responseMessage != null && responseMessage != "") {

@@ -1,7 +1,7 @@
 'use strict';
 
 let alphabet = "ABCDEFGHIJKL" //max 5 only 
-let staticButtonTemplate = function () {
+let staticButtonTemplateBase = function () {
     return {
         "attachment": {
             "type": "template",
@@ -13,6 +13,27 @@ let staticButtonTemplate = function () {
         }
     };
 }
+let genericTemplateBase = function () {
+    return {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": []
+            }
+        }
+    }
+
+}
+let element = function () {
+    return {
+        "title": "title for element ",
+        "item_url": "URL that is opened when bubble is tapped",
+        "image_url": "Bubble image",
+        "subtitle": "",
+        "buttons": []
+    }
+}
 let staticButton = function () {
     // return {
     //     "type": "postback",
@@ -21,7 +42,7 @@ let staticButton = function () {
     // };
     return {
         "type": "web_url",
-        "url": `https://maps.google.com/?q=@`,
+        "url": `https://maps.google.com?q=@`,
         "title": "View Item",
         "webview_height_ratio": "full"
     }
@@ -52,11 +73,18 @@ let staticMapUrlGenerator = function (data) {
     }
     return mapUrl + mapProperty + markersStr;
 }
+let staticMapUrlGeneratorForCarousel = function (item) {
+    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap`;
+    const mapProperty = `?size=240x240&zoom=15`;
+    let markers = `&markers=icon:https://goo.gl/chTNEI`;
+    let addressLoc = `|` + item.lat + `,` + item.lon;
+    return mapUrl + mapProperty + markers + addressLoc;
+}
 
 //exports
 let generator = {
     buttonTemplate: function (headerText, data) {
-        let template = staticButtonTemplate();
+        let template = staticButtonTemplateBase();
         template.attachment.payload.text = headerText;
         let items = data.data;
         let idx = 0;
@@ -71,27 +99,23 @@ let generator = {
         return template;
     },
     genericTemplate: function (data) {
-        //"image_url": "https:\/\/maps.googleapis.com\/maps\/api\/staticmap?size=764x400&center=" + lat + "," + long + "&zoom=25&markers=" + lat + "," + long,     
+        //log.info("************ genericTemplate data -  " + JSON.stringify(data));
+        let template = genericTemplateBase();
 
-        //let staticImageUrl = staticMapUrlGenerator(data);
+        let items = data.data;
+        for (let item of items) {
+            let e = element();
+            e.title = item.name;
+            e.subtitle = "Bikes Available:" + item.num_bikes_available + ", Docks Available:" + item.num_docks_available;
+            e.image_url = staticMapUrlGeneratorForCarousel(item);
 
-        console.log(" url for map --  " + staticImageUrl);
-        let template = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": {
-                        "element": {
-                            "title": "Stations near by",
-                            "image_url": "http://",
-                            "item_url": "http://"
-                        }
-                    }
-                }
-            }
+            let b = staticButton();
+            b.title = "View Map";
+            b.url = b.url + item.lat + ',' + item.lon;
+            e.item_url = b.url;
+            e.buttons.push(b);
+            template.attachment.payload.elements.push(e);
         }
-
         return template;
 
     },
@@ -109,4 +133,23 @@ let generator = {
         return template;
     }
 }
+
+//**test
+
+let data = {};
+data.data = [];
+data.data.push({
+    name: "name"
+});
+data.data.push({
+    name: "name2"
+})
+let item = {};
+item.lat = 40.7287448;
+item.lon = -74.0342969;
+console.log(JSON.stringify(staticMapUrlGeneratorForCarousel(item)));
+
+
+
+//**/
 module.exports = generator;
