@@ -15,16 +15,6 @@ let userServiceHandler = {
             if (error) log.error("User update/insert failed, deails - " + error);
             if (response) log.info("User update/insert service response status message is " + response.statusMessage);
         });
-    },
-    getUser: function (userId, cb) {
-        request({
-            url: settings.userService + '/' + userId,
-            method: 'GET'
-        }, function (error, response, body) {
-            if (error) log.error("User update/insert failed, deails - " + error);
-            if (response) log.info("User update/insert service response status message is " + response.statusMessage);
-            cb(response);
-        });
     }
 }
 module.exports = userServiceHandler;

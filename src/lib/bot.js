@@ -72,6 +72,10 @@ bot.on('message', (payload, reply) => {
                             //                            
                             commonReplyText(reply, text + " " + fName);
                             break;
+                        case 5: //generic answer
+                            //                            
+                            commonReplyText(reply, parsedMessage.message);
+                            break;
                         default:
                             commonReplyText(reply, parsedMessage.message);
                             break;
