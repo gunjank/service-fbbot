@@ -7,7 +7,7 @@ let botKeysService = appEnv.getService('bot_keys');
 let botKeysServiceCredentials = function () {
     //** local testing **//
     if (botKeysService == null) {
-        log.error('botKeysService not available, reading local hardcoded values');
+        console.log('botKeysService not available, reading local hardcoded values');
         let dummyData = require('./notToCommit');
         botKeysService = {};
         botKeysService.credentials = {};

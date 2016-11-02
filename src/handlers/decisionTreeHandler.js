@@ -19,25 +19,7 @@ let decisionTreeServiceHandler = {
             // log.info("************ body " + JSON.stringify(body));
             if (body != null) {
                 let parsedMessage = new ParsedMessage(body);
-                switch (parsedMessage.messageCode) {
-                    case 0: //error 
-                        cb(null, parsedMessage.message);
-                        break;
-                    case 1: //station list 
-                        cb(null, "", parsedMessage.data);
-                        break;
-                    case 2: //asking for address
-                        //
-                        cb(null, parsedMessage.data.msg);
-                        break;
-                    case 3: //address_saved
-                        //
-                        cb(null, parsedMessage.data.msg);
-                        break;
-                    default:
-                        cb(null, parsedMessage.message);
-                        break;
-                }
+                cb(null, parsedMessage);
             } else {
                 log.info("Decision tree message service - body is null");
                 cb(error, null);
