@@ -5,24 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "boom": "^2.8.0",
     "bunyan": "^1.8.1",
     "cfenv": "^1.0.3",
     "express": "^4.14.0",
-    "good": "^6.2.0",
-    "good-console": "^6.1.2",
-    "good-file": "^5.0.1",
-    "hapi": "^15.1.1",
-    "hapi-swagger": "^7.2.0",
     "http": "0.0.0",
-    "inert": "^4.0.2",
-    "joi": "^9.1.0",
-    "lodash": "^3.10.0",
-    "lout": "^6.2.3",
     "messenger-bot": "^2.4.0",
-    "q": "^1.4.1",
-    "request": "^2.75.0",
-    "vision": "^4.1.0"
+    "request": "^2.75.0"
   },
   "devDependencies": {},
   "scripts": {
