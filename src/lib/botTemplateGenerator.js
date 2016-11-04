@@ -24,7 +24,7 @@ let genericTemplateBase = function () {
         }
     }
 
-}
+};
 let element = function () {
     return {
         "title": "title for element ",
@@ -80,6 +80,16 @@ let staticMapUrlGeneratorForCarousel = function (item) {
     let addressLoc = `|` + item.lat + `,` + item.lon;
     return mapUrl + mapProperty + markers + addressLoc;
 }
+let videoTemplate = function () {
+    return {
+        "attachment": {
+            "type": "video",
+            "payload": {
+                "url": "https://vimeo.com/180056981"
+            }
+        }
+    }
+};
 
 //exports
 let generator = {
@@ -130,6 +140,10 @@ let generator = {
                 }
             }
         }
+        return template;
+    },
+    getVideoTemplate: function () {
+        let template = videoTemplate();
         return template;
     }
 }

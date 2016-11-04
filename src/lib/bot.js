@@ -6,10 +6,6 @@ const userServiceHandler = require('../handlers/userServiceHandler');
 const decisionTreeHandler = require('../handlers/decisionTreeHandler');
 
 const generator = require('./botTemplateGenerator');
-let senderId = "";
-let fName = "";
-//let lName = "";
-let text = "";
 
 let bot = new Bot({
     token: settings.botKeysCreden.page_token,
@@ -22,19 +18,21 @@ bot.on('error', (err) => {
 })
 
 bot.on('message', (payload, reply) => {
-        text = payload.message.text;
-        senderId = payload.sender.id;
+
+
         console.log("original message payload " + JSON.stringify(payload));
-        bot.getProfile(senderId, (err, profile) => {
+        bot.getProfile(payload.sender.id, (err, profile) => {
             if (err) throw err
 
-            fName = `${profile.first_name}`;
-            //lName = `${profile.last_name}`;
-            //if user update needed
-            // let userInsertUpdatePayload = {
-            //         "first_name": fName,
-            //         "last_name": lName,
-            //         "user_id": senderId
+            const fName = `${profile.first_name}`;
+            const senderId = payload.sender.id;
+            let text = payload.message.text
+                //lName = `${profile.last_name}`;
+                //if user update needed
+                // let userInsertUpdatePayload = {
+                //         "first_name": fName,
+                //         "last_name": lName,
+                //         "user_id": senderId
 
             //     }
             //we don't need to insert/update user here for each call'
@@ -81,56 +79,77 @@ bot.on('message', (payload, reply) => {
                 } else {
                     switch (parsedMessage.messageCode) {
                         case 0: //error     
-                            commonReplyText(reply, parsedMessage.message);
+                            commonReplyText(reply, senderId, parsedMessage.message);
                             break;
                         case 1: //station list 
-                            botSendMessage(parsedMessage.data);
+                            botTemplateForSendMessage(senderId, parsedMessage.data, 1);
                             break;
                         case 2: //asking for address
                             //
-                            commonReplyText(reply, parsedMessage.message);
+                            commonReplyText(reply, senderId, parsedMessage.message);
                             break;
                         case 3: //address_saved
                             //                           
-                            commonReplyText(reply, parsedMessage.message);
+                            commonReplyText(reply, senderId, parsedMessage.message);
                             break;
                         case 4: //greetings
                             //                            
-                            commonReplyText(reply, text + " " + fName);
+                            commonReplyText(reply, senderId, text + " " + fName);
                             break;
                         case 5: //generic answer
                             //                            
-                            commonReplyText(reply, parsedMessage.message);
+                            commonReplyText(reply, senderId, parsedMessage.message);
+                            break;
+                        case 6: //video
+                            //                            
+                            botTemplateForSendMessage(senderId, parsedMessage.data, 6);
                             break;
                         default:
-                            commonReplyText(reply, parsedMessage.message);
+                            commonReplyText(reply, senderId, parsedMessage.message);
                             break;
                     }
                 }
             }); //decisionTreeHandler end
         }); //bot.getProfile end
     }) //bot on event end
-let botSendMessage = function (data) {
 
-    if (data) {
+let botSendMessage = function (senderId, template) {
+    console.log("template " + JSON.stringify(template));
+    bot.sendMessage(senderId, template, function (params) {
 
-        // let buttonTemplate = generator.buttonTemplate("Stations near by", data);
-        let genericTemplate = generator.genericTemplate(data);
-        //let imageTemplate = generator.imageTemplate(data);
-        //log.info("************ buttonTemplate " + JSON.stringify(genericTemplate));
-        bot.sendMessage(senderId, genericTemplate, function (params) {
-            console.log("bot send message called with genericTemplate template to " + senderId);
-        });
-    } else {
-        log.info("botSendMessage ::  empty or null data found");
-    }
+        console.log("bot send message called with template to senderid  " + senderId);
+        console.log("params " + JSON.stringify(params));
+    });
+};
 
-}
-let commonReplyText = function (reply, text) {
+let commonReplyText = function (reply, senderId, text) {
     console.log("bot is sending ::" + text + " ::message  to " + senderId);
     reply({
         text
     });
+};
+let botTemplateForSendMessage = function (senderId, data, messageCode) {
+    let template;
+    if (messageCode === 1) { //station list 
+
+        // let buttonTemplate = generator.buttonTemplate("Stations near by", data);
+        template = generator.genericTemplate(data);
+        //let imageTemplate = generator.imageTemplate(data);
+        //log.info("************ buttonTemplate " + JSON.stringify(genericTemplate));
+        botSendMessage(senderId, template);
+
+    } else if (messageCode === 6) //video
+    {
+        template = generator.getVideoTemplate();
+        botSendMessage(senderId, template);
+
+    } else {
+        log.info("botSendMessage :: messageCode empty out of defined list");
+    }
+
 }
+
+
+
 
 module.exports = bot;
