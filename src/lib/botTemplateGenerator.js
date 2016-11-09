@@ -148,22 +148,4 @@ let generator = {
     }
 }
 
-//**test
-
-// let data = {};
-// data.data = [];
-// data.data.push({
-//     name: "name"
-// });
-// data.data.push({
-//     name: "name2"
-// })
-// let item = {};
-// item.lat = 40.7287448;
-// item.lon = -74.0342969;
-// console.log(JSON.stringify(staticMapUrlGeneratorForCarousel(item)));
-
-
-
-//**/
 module.exports = generator;

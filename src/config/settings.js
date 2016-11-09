@@ -36,13 +36,34 @@ let getDecisionTreeService = function () {
     }
 }
 
+let getPersistentMenuPayload = function () {
+    return [{
+        "type": "postback",
+        "title": "Show me bikes",
+        "payload": "Show me bikes"
+    }, {
+        "type": "postback",
+        "title": "Favorites",
+        "payload": "show me my favorites"
+    }, {
+        "type": "postback",
+        "title": "Notifications",
+        "payload": "Notifications"
+    }, {
+        "type": "web_url",
+        "title": "Help",
+        "url": "https://www.facebook.com/Citibike-200455437055826/"
+    }];
+}
+
+
+
 let settings = {
     botKeysCreden: botKeysServiceCredentials(),
     userService: getUserService(),
     decisionTreeService: getDecisionTreeService(),
     port: process.env.PORT || '3000',
-
-
+    persistentMenu: getPersistentMenuPayload()
 
 }
 

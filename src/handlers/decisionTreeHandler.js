@@ -1,6 +1,5 @@
 'use strict';
 
-
 var request = require('request');
 const settings = require('../config/settings');
 let ParsedMessage = require('../models/parsedMessage');
@@ -24,8 +23,6 @@ let decisionTreeServiceHandler = {
                 log.info("Decision tree message service - body is null");
                 cb(error, null);
             }
-
-
         });
     }
 

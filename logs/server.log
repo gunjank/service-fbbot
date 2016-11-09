@@ -4,3 +4,20 @@
 {"event":"log","timestamp":1476720774010,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":17116}
 {"event":"log","timestamp":1476725316756,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":14440}
 {"event":"log","timestamp":1476725804626,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":19128}
+{"event":"log","timestamp":1478722225023,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":11720}
+{"event":"log","timestamp":1478722319910,"tags":["connection","client","error"],"data":{"bytesParsed":0,"code":"HPE_CB_headers_complete"},"pid":11720}
+{"event":"log","timestamp":1478722356428,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":10504}
+{"event":"log","timestamp":1478724379069,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":13184}
+{"event":"log","timestamp":1478724634703,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":10708}
+{"event":"log","timestamp":1478724852486,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":7484}
+{"event":"log","timestamp":1478725024807,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":11148}
+{"event":"log","timestamp":1478725062412,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":14736}
+{"event":"log","timestamp":1478725089920,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":8712}
+{"event":"log","timestamp":1478725250045,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":6692}
+{"event":"log","timestamp":1478725394883,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":9740}
+{"event":"log","timestamp":1478725537690,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":10264}
+{"event":"log","timestamp":1478725593198,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":8228}
+{"event":"log","timestamp":1478726541980,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":11968}
+{"event":"log","timestamp":1478727921620,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":3036}
+{"event":"log","timestamp":1478728020710,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":14916}
+{"event":"log","timestamp":1478728140815,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3000\"}]","pid":13500}

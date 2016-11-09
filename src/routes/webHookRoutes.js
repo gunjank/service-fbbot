@@ -1,22 +1,41 @@
 'use strict'
 
-const bot = require('../lib/bot');
-module.exports = function (app) {
+const bot = require('../lib/bot'),
+    appHandler = require('../handlers/appHandler'),
+    Joi = require('joi');
 
-    //-----Web hook calls start
-    app.get('/', (req, res) => {
-        //console.log("get call happen with req " + req);
-        return bot._verify(req, res)
-    })
+let samplePayload = `{"object":"page","entry":[{"id":"123456","time":1478725703968,"messaging":[{"sender":{"id":"11223344"},    
+ "recipient":{"id":"22334455"},"timestamp":1478725703948,"message": 
+  {"mid":"mid.1234:f57313b019","seq":123,"text":"hello"}}]}]}`;
 
-    app.post('/', (req, res) => {
-        //console.log("post call happen with req.body " + req.body);
-        bot._handleMessage(req.body)
-        res.end(JSON.stringify({
-            status: 'ok'
-        }))
-    })
+module.exports = function (server, options) {
+    //all root level web-hook get call handler
+    server.route({
+        method: 'get',
+        path: '/',
+        config: {
+            handler: appHandler.webHookGetHandler,
+            description: 'Facebook Webhook route for get calls',
+            notes: 'Facbook will call this method',
+            tags: ['api'],
+            validate: {
 
-    //-----Web hook calls end
+            }
+        }
+    });
+    //all root level web-hook post call handler
+    server.route({
+        method: 'post',
+        path: '/',
+        config: {
+            handler: appHandler.webHookPostHandler,
+            description: 'Facebook Webhook route for post calls',
+            notes: 'Facebook will call this url, sample payload ' + samplePayload,
+            tags: ['api'],
+            validate: {
+                payload: Joi.object().allow(null)
+            }
+        }
+    });
 
 }

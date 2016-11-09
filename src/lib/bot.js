@@ -2,7 +2,6 @@
 
 const Bot = require('messenger-bot')
 const settings = require('../config/settings');
-const userServiceHandler = require('../handlers/userServiceHandler');
 const decisionTreeHandler = require('../handlers/decisionTreeHandler');
 
 const generator = require('./botTemplateGenerator');
@@ -26,23 +25,14 @@ bot.on('message', (payload, reply) => {
 
             const fName = `${profile.first_name}`;
             const senderId = payload.sender.id;
-            let text = payload.message.text
-                //lName = `${profile.last_name}`;
-                //if user update needed
-                // let userInsertUpdatePayload = {
-                //         "first_name": fName,
-                //         "last_name": lName,
-                //         "user_id": senderId
+            let text = payload.message.text;
 
-            //     }
-            //we don't need to insert/update user here for each call'
-            //userServiceHandler.updateInsertUser(userInsertUpdatePayload);
             //general text message -
-            //{"sender":{"id":"1120350294667738"},"recipient":{"id":"200455437055826"},"timestamp":1478271995980,"message":{"mid":"mid.1478271995980:0de56e7287","seq":2332,"text":"show me bikes near home"}}
+            //{"sender":{"id":"1234"},"recipient":{"id":"123456"},"timestamp":1478271995980,"message":{"mid":"mid.1478271995980:0de56e7287","seq":2332,"text":"show me bikes near home"}}
 
             //message with location 
-            // {"sender":{"id":"994195690708817"},"recipient":{"id":"200455437055826"},"timestamp":1478272713759,
-            // "message":{"mid":"mid.1478272713759:8d9575f369","seq":2338,"attachments":[{"title":"Gunjan's Location","url":"https://www.facebook.com/l.php?u=https%3A%2F%2Fwww.bing.com%2Fmaps%2Fdefault.aspx%3Fv%3D2%26pc%3DFACEBK%26mid%3D8100%26where1%3D40.746241456646%252C%2B-73.944407821878%26FORM%3DFBKPL1%26mkt%3Den-US&h=XAQGgKGMC&s=1&enc=AZOvlI92Rzt3rJ3ytVLWnMQ7eP0uWZVSy_ulAETli9p401pYB91cs_IrZLot_wUGFkYMigeZucJ8MOpimdrA5w7dQbuPOBQusrZqNwy8C-t-kw","type":"location",
+            // {"sender":{"id":"2323"},"recipient":{"id":"2323"},"timestamp":1478272713759,
+            // "message":{"mid":"mid.1478272713759:8d9575f369","seq":2338,"attachments":[{"title":" Location","url":"https://www.facebook.com/l.php?u=https%3A%t-kw","type":"location",
             // "payload":{"coordinates":{"lat":40.746241456646,"long":-73.944407821878}}}]}}
 
 
