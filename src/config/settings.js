@@ -62,7 +62,7 @@ let settings = {
     botKeysCreden: botKeysServiceCredentials(),
     userService: getUserService(),
     decisionTreeService: getDecisionTreeService(),
-    port: process.env.PORT || '3000',
+    port: process.env.PORT || '3003',
     persistentMenu: getPersistentMenuPayload()
 
 }
