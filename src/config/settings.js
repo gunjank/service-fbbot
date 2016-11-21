@@ -38,22 +38,31 @@ let getDecisionTreeService = function () {
 
 let getPersistentMenuPayload = function () {
     return [{
-        "type": "postback",
-        "title": "Show me bikes",
-        "payload": "Show me bikes"
-    }, {
-        "type": "postback",
-        "title": "Favorites",
-        "payload": "show me my favorites"
-    }, {
-        "type": "postback",
-        "title": "Notifications",
-        "payload": "Notifications"
-    }, {
-        "type": "web_url",
-        "title": "Help",
-        "url": "https://www.facebook.com/Citibike-200455437055826/"
-    }];
+            "type": "postback",
+            "title": "Show me bikes",
+            "payload": "Show me bikes"
+        }, {
+            "type": "postback",
+            "title": "Favorites",
+            "payload": "show me my favorites"
+        }, {
+            "type": "postback",
+            "title": "Notifications",
+            "payload": "Notifications"
+        },
+        //  {
+        //     "type": "web_url",
+        //     "title": "Citi Auth",
+        //     "url": "https://sandbox.apihub.citi.com/gcb/api/authCode/oauth2/authorize?response_type=code&client_id=6c675a75-1afb-43c7-8a5a-6e3bb4453685&scope=customers_profiles&countryCode=US&businessCode=GCB&locale=en_US&state=state_example&redirect_uri=https://service-user.cfapps.io",
+        //     "webview_height_ratio": "compact",
+        //     "messenger_extensions": true
+        // },
+        {
+            "type": "web_url",
+            "title": "Help",
+            "url": "https://www.facebook.com/Citibike-200455437055826/"
+        }
+    ];
 }
 
 
