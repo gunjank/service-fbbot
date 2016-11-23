@@ -1,6 +1,7 @@
 'use strict';
 
-const bot = require('../lib/bot'),
+const log = require('../config/logger'),
+    bot = require('../lib/bot'),
     settings = require('../config/settings');
 
 //exports

@@ -1,14 +1,15 @@
 'use strict';
 
-const cfenv = require("cfenv");
-let appEnv = cfenv.getAppEnv();
+const log = require('../config/logger'),
+    cfenv = require("cfenv"),
+    appEnv = cfenv.getAppEnv();
 let botKeysService = appEnv.getService('bot_keys');
 
-let botKeysServiceCredentials = function () {
+const botKeysServiceCredentials = function () {
     //** local testing **//
     if (botKeysService == null) {
-        console.log('botKeysService not available, reading local hardcoded values');
-        let dummyData = require('./notToCommit');
+        log.info('botKeysService not available, reading local hardcoded values');
+        const dummyData = require('./notToCommit');
         botKeysService = {};
         botKeysService.credentials = {};
         botKeysService.credentials.app_secret = dummyData.app_secret;
@@ -21,14 +22,7 @@ let botKeysServiceCredentials = function () {
 
 }
 
-let getUserService = function () {
-    if (process.env.NODE_ENV === 'PRODUCTION') {
-        return `https://service-user.cfapps.io/v1/user`;
-    } else {
-        return `http://localhost:3001/v1/user`;
-    }
-}
-let getDecisionTreeService = function () {
+const getDecisionTreeService = function () {
     if (process.env.NODE_ENV === 'PRODUCTION') {
         return `https://service-decision-tree.cfapps.io/v1`;
     } else {
@@ -36,7 +30,7 @@ let getDecisionTreeService = function () {
     }
 }
 
-let getPersistentMenuPayload = function () {
+const getPersistentMenuPayload = function () {
     return [{
             "type": "postback",
             "title": "Show me bikes",
@@ -67,12 +61,13 @@ let getPersistentMenuPayload = function () {
 
 
 
-let settings = {
+const settings = {
     botKeysCreden: botKeysServiceCredentials(),
-    userService: getUserService(),
     decisionTreeService: getDecisionTreeService(),
     port: process.env.PORT || '3003',
-    persistentMenu: getPersistentMenuPayload()
+    persistentMenu: getPersistentMenuPayload(),
+    citiLoginHeaderText: "Please login to your bank by clicking below \"Log In\" button. You will be redirected to secure login page.",
+    citiAuthLoginUrl: "https://sandbox.apihub.citi.com/gcb/api/authCode/oauth2/authorize?response_type=code&client_id=6c675a75-1afb-43c7-8a5a-6e3bb4453685&scope=customers_profiles accounts_details_transactions&countryCode=US&businessCode=GCB&locale=en_US&state=@@@@@&redirect_uri=https://service-user.cfapps.io"
 
 }
 

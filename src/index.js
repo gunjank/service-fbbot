@@ -1,12 +1,7 @@
 'use strict';
 
-const bunyan = require('bunyan');
-//log clas will now globally available
-global.log = bunyan.createLogger({
-    name: 'service-fbbot'
-});
-
-let path = require('path'),
+const log = require('./config/logger'),
+    path = require('path'),
     Lout = require('lout'),
     Good = require('good'),
     GoodFile = require('good-file'),

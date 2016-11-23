@@ -1,7 +1,10 @@
 'use strict';
 
-let alphabet = "ABCDEFGHIJKL" //max 5 only 
-let staticButtonTemplateBase = function () {
+const log = require('../config/logger'),
+    settings = require('../config/settings');
+
+const alphabet = "ABCDEFGHIJKL" //max 5 only 
+const staticButtonTemplateBase = function () {
     return {
         "attachment": {
             "type": "template",
@@ -13,7 +16,7 @@ let staticButtonTemplateBase = function () {
         }
     };
 }
-let genericTemplateBase = function () {
+const genericTemplateBase = function () {
     return {
         "attachment": {
             "type": "template",
@@ -25,7 +28,7 @@ let genericTemplateBase = function () {
     }
 
 };
-let element = function () {
+const element = function () {
     return {
         "title": "title for element ",
         "item_url": "URL that is opened when bubble is tapped",
@@ -34,7 +37,7 @@ let element = function () {
         "buttons": []
     }
 }
-let staticButton = function () {
+const staticButton = function () {
     // return {
     //     "type": "postback",
     //     "title": "Station 78, bikes 5 av",
@@ -47,7 +50,7 @@ let staticButton = function () {
         "webview_height_ratio": "full"
     }
 }
-let staticMapUrlGenerator = function (data) {
+const staticMapUrlGenerator = function (data) {
     const mapUrl = `https://maps.googleapis.com/maps/api/staticmap`;
     const mapProperty = `?size=360x360`;
     //&zoom=13&center=` + data.payload.lat + `,` + data.payload.lon;//with markers no need to specify center and zoom
@@ -73,14 +76,14 @@ let staticMapUrlGenerator = function (data) {
     }
     return mapUrl + mapProperty + markersStr;
 }
-let staticMapUrlGeneratorForCarousel = function (item) {
+const staticMapUrlGeneratorForCarousel = function (item) {
     const mapUrl = `https://maps.googleapis.com/maps/api/staticmap`;
     const mapProperty = `?size=240x240&zoom=15`;
     let markers = `&markers=icon:https://goo.gl/chTNEI`;
     let addressLoc = `|` + item.lat + `,` + item.lon;
     return mapUrl + mapProperty + markers + addressLoc;
 }
-let videoTemplate = function () {
+const videoTemplate = function () {
     return {
         "attachment": {
             "type": "video",
@@ -92,7 +95,7 @@ let videoTemplate = function () {
 };
 
 //exports
-let generator = {
+const generator = {
     buttonTemplate: function (headerText, data) {
         let template = staticButtonTemplateBase();
         template.attachment.payload.text = headerText;
@@ -131,7 +134,6 @@ let generator = {
     },
     imageTemplate: function (data) {
         let staticImageUrl = staticMapUrlGenerator(data);
-        console.log(" url for map --  " + staticImageUrl);
         let template = {
             "attachment": {
                 "type": "image",
@@ -145,7 +147,20 @@ let generator = {
     getVideoTemplate: function () {
         let template = videoTemplate();
         return template;
+    },
+    citiLoginTemplate: function (userId) {
+        let loginUrl = settings.citiAuthLoginUrl;
+        const re = new RegExp('@@@@@', 'i');
+        loginUrl = loginUrl.replace(re, userId);
+        const template = staticButtonTemplateBase();
+        template.attachment.payload.text = settings.citiLoginHeaderText;
+        const b = staticButton();
+        b.title = "Log In";
+        b.url = loginUrl;
+        template.attachment.payload.buttons.push(b);
+        return template;
     }
-}
+
+}; //end of exports
 
 module.exports = generator;

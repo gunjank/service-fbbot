@@ -1,11 +1,12 @@
 'use strict';
 
-var request = require('request');
-const settings = require('../config/settings');
-let ParsedMessage = require('../models/parsedMessage');
+const log = require('../config/logger'),
+    request = require('request'),
+    settings = require('../config/settings'),
+    ParsedMessage = require('../models/parsedMessage');
 
 
-let decisionTreeServiceHandler = {
+const decisionTreeServiceHandler = {
 
     parseMessage: function (payloadData, cb) {
         request({
@@ -15,7 +16,7 @@ let decisionTreeServiceHandler = {
         }, function (error, response, body) {
             if (error) log.error("Decision tree message service failed and error  " + error);
             if (response) log.info("Decision tree message service successful and response status message is " + response.statusMessage);
-            // log.info("************ body " + JSON.stringify(body));
+
             if (body != null) {
                 let parsedMessage = new ParsedMessage(body);
                 cb(null, parsedMessage);

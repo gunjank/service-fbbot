@@ -1,25 +1,25 @@
 'use strict';
 
-const Bot = require('messenger-bot')
-const settings = require('../config/settings');
-const decisionTreeHandler = require('../handlers/decisionTreeHandler');
+const log = require('../config/logger'),
+    Bot = require('messenger-bot'),
+    settings = require('../config/settings'),
+    decisionTreeHandler = require('../handlers/decisionTreeHandler'),
+    generator = require('./botTemplateGenerator');
 
-const generator = require('./botTemplateGenerator');
-
-let bot = new Bot({
+const bot = new Bot({
     token: settings.botKeysCreden.page_token,
     verify: settings.botKeysCreden.verify_token,
     app_secret: settings.botKeysCreden.app_secret
 })
 
 bot.on('error', (err) => {
-    console.log(err.message)
+    log.error(err.message)
 })
 
 bot.on('message', (payload, reply) => {
 
 
-        console.log("original message payload " + JSON.stringify(payload));
+        log.info("original message payload " + JSON.stringify(payload));
         bot.getProfile(payload.sender.id, (err, profile) => {
             if (err) throw err
 
@@ -41,7 +41,7 @@ bot.on('message', (payload, reply) => {
                 if (null != payload.message.attachments && payload.message.attachments.length > 0) {
                     //let 
                     for (let attachment of payload.message.attachments) {
-                        if (attachment.type = 'location' && null != attachment.payload && null != attachment.payload.coordinates && null != attachment.payload.coordinates.lat) {
+                        if (attachment.type === 'location' && null != attachment.payload && null != attachment.payload.coordinates && null != attachment.payload.coordinates.lat) {
                             const re = new RegExp('\\.');
                             let lat = attachment.payload.coordinates.lat.toString();
                             lat = lat.replace(re, "DOT");
@@ -59,7 +59,7 @@ bot.on('message', (payload, reply) => {
                 userId: senderId,
                 text: text
             };
-            console.log("original message " + parseMsgPayload.text);
+            log.info("original message " + parseMsgPayload.text);
             decisionTreeHandler.parseMessage(parseMsgPayload, function (error, parsedMessage) {
 
                 if (error) {
@@ -68,31 +68,26 @@ bot.on('message', (payload, reply) => {
                     });
                 } else {
                     switch (parsedMessage.messageCode) {
-                        case 0: //error     
+                        case 2:
+                        case 3:
+                        case 5:
+                        case 0: //0=error ,2=asking address,3=address saved, 5= generic answer 
                             commonReplyText(reply, senderId, parsedMessage.message);
                             break;
                         case 1: //station list 
                             botTemplateForSendMessage(senderId, parsedMessage.data, 1);
                             break;
-                        case 2: //asking for address
-                            //
-                            commonReplyText(reply, senderId, parsedMessage.message);
-                            break;
-                        case 3: //address_saved
-                            //                           
-                            commonReplyText(reply, senderId, parsedMessage.message);
-                            break;
                         case 4: //greetings
-                            //                            
                             commonReplyText(reply, senderId, text + " " + fName);
                             break;
-                        case 5: //generic answer
-                            //                            
-                            commonReplyText(reply, senderId, parsedMessage.message);
-                            break;
                         case 6: //video
-                            //                            
                             botTemplateForSendMessage(senderId, parsedMessage.data, 6);
+                            break;
+                        case 7: //accounts found
+                            handleAccountsDetails(senderId, parsedMessage.data);
+                            break;
+                        case 8: //no account found
+                            botTemplateForSendMessage(senderId, parsedMessage.message, 8);
                             break;
                         default:
                             commonReplyText(reply, senderId, parsedMessage.message);
@@ -103,43 +98,60 @@ bot.on('message', (payload, reply) => {
         }); //bot.getProfile end
     }) //bot on event end
 
-let botSendMessage = function (senderId, template) {
-    console.log("template " + JSON.stringify(template));
+const botSendMessage = function (senderId, template) {
+    log.info("template " + JSON.stringify(template));
     bot.sendMessage(senderId, template, function (params) {
 
-        console.log("bot send message called with template to senderid  " + senderId);
-        console.log("params " + JSON.stringify(params));
+        log.info("bot send message called with template to senderid  " + senderId);
+        log.info("params " + JSON.stringify(params));
     });
 };
 
-let commonReplyText = function (reply, senderId, text) {
-    console.log("bot is sending ::" + text + " ::message  to " + senderId);
+const commonReplyText = function (reply, senderId, text) {
+    log.info("bot is sending ::" + text + " ::message  to " + senderId);
     reply({
         text
     });
 };
-let botTemplateForSendMessage = function (senderId, data, messageCode) {
+const botTemplateForSendMessage = function (senderId, data, messageCode) {
     let template;
-    if (messageCode === 1) { //station list 
-
-        // let buttonTemplate = generator.buttonTemplate("Stations near by", data);
+    if (messageCode === 1) { //station list         
         template = generator.genericTemplate(data);
-        //let imageTemplate = generator.imageTemplate(data);
-        //log.info("************ buttonTemplate " + JSON.stringify(genericTemplate));
-        botSendMessage(senderId, template);
-
     } else if (messageCode === 6) //video
     {
         template = generator.getVideoTemplate();
-        botSendMessage(senderId, template);
+    } else if (messageCode === 8) { //no account found
+        template = generator.citiLoginTemplate(senderId);
+    }
+    botSendMessage(senderId, template);
+}
+const handleAccountsDetails = (senderId, data) => {
+    const template = {};
+    let accountDetails = "You account details  are :";
+    if (null != data && null != data.accountGroupSummary && data.accountGroupSummary.length > 0) //have account
+    {
+        for (const accountGroupSummary of data.accountGroupSummary) {
+            if (accountGroupSummary.accountGroup === "CREDITCARD") //all credit card will come here
+            {
+                accountDetails = "Credit cards : \r\n"
+                for (const account of accountGroupSummary.accounts) {
+                    accountDetails += " Product Name :" + account.creditCardAccountSummary.productName + "\r\n";
+                    accountDetails += " Outstanding Balance :" + account.creditCardAccountSummary.outstandingBalance + "\r\n";
+                    accountDetails += " Available Credit :" + account.creditCardAccountSummary.availableCredit + "\r\n";
+                    accountDetails += " Credit Limit :" + account.creditCardAccountSummary.creditLimit + "\r\n";
+                    accountDetails += " Payment Due Date :" + account.creditCardAccountSummary.paymentDueDate + "\r\n";
+                    accountDetails += "\r\n";
+                }
+            }
+        }
 
-    } else {
-        log.info("botSendMessage :: messageCode empty out of defined list");
     }
 
+    template.text = accountDetails;
+    log.info({
+        accounts: data,
+        template: template,
+    }, 'account details')
+    botSendMessage(senderId, template);
 }
-
-
-
-
 module.exports = bot;
