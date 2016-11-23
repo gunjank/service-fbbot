@@ -21,7 +21,8 @@ bot.on('message', (payload, reply) => {
 
         log.info("original message payload " + JSON.stringify(payload));
         bot.getProfile(payload.sender.id, (err, profile) => {
-            if (err) throw err
+            if (err)
+                throw err;
 
             const fName = `${profile.first_name}`;
             const senderId = payload.sender.id;

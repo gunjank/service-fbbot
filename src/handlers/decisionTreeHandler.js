@@ -7,15 +7,16 @@ const log = require('../config/logger'),
 
 
 const decisionTreeServiceHandler = {
-
     parseMessage: function (payloadData, cb) {
         request({
             url: settings.decisionTreeService + "/message",
             method: 'POST',
             json: payloadData
         }, function (error, response, body) {
-            if (error) log.error("Decision tree message service failed and error  " + error);
-            if (response) log.info("Decision tree message service successful and response status message is " + response.statusMessage);
+            if (error)
+                log.error("Decision tree message service failed and error  " + error);
+            if (response)
+                log.info("Decision tree message service successful and response status message is " + response.statusMessage);
 
             if (body != null) {
                 let parsedMessage = new ParsedMessage(body);
@@ -26,7 +27,5 @@ const decisionTreeServiceHandler = {
             }
         });
     }
-
-
-}
+}; //end of exports
 module.exports = decisionTreeServiceHandler;

@@ -15,7 +15,7 @@ const log = require('./config/logger'),
 /**
  * Construct the server
  */
-let server = new Hapi.Server({
+const server = new Hapi.Server({
     connections: {
         routes: {
             cors: true,
@@ -37,8 +37,8 @@ server.connection({
     port: settings.port
 
 });
-//debug('added port: ', config.port);
-let swaggerOptions = {
+
+const swaggerOptions = {
     info: {
         'title': 'Service-Fbbot API Documentation',
         'version': Pack.version
@@ -57,7 +57,7 @@ server.register([Inert, Vision, {
 /**
  * Build a logger for the server & each service
  */
-let reporters = [new GoodFile({
+const reporters = [new GoodFile({
     log: '*'
 }, __dirname + '/../logs/server.log')];
 /**
@@ -92,7 +92,7 @@ server.register({
 server.start(function (err) {
     if (err) throw new Error(err);
     log.info('server started!');
-    let summary = server.connections.map(function (cn) {
+    const summary = server.connections.map(function (cn) {
         return {
             labels: cn.settings.labels,
             uri: cn.info.uri
@@ -100,8 +100,8 @@ server.start(function (err) {
     });
 
 
-    let webHookRoutes = require('./routes/webHookRoutes')(server);
-    let threadSettingRoutes = require('./routes/threadSettingRoutes')(server);
+    const webHookRoutes = require('./routes/webHookRoutes')(server);
+    const threadSettingRoutes = require('./routes/threadSettingRoutes')(server);
 
     log.info('Connections: ', summary);
     server.log('server', 'started: ' + JSON.stringify(summary));

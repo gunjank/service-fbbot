@@ -43,4 +43,4 @@ module.exports = {
             });
         } //end of handler methods
 
-}
+};

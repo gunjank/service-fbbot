@@ -112,9 +112,7 @@ const generator = {
         return template;
     },
     genericTemplate: function (data) {
-        //log.info("************ genericTemplate data -  " + JSON.stringify(data));
         let template = genericTemplateBase();
-
         let items = data.data;
         for (let item of items) {
             let e = element();

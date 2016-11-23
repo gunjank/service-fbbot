@@ -1,6 +1,5 @@
 'use strict'
 
-
 const settings = require('../config/settings'),
   threadSettingsHandler = require('../handlers/threadSettingsHandler'),
   request = require('request'),
