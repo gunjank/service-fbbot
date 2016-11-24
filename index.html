@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Service-fbbot by gunjank</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Service-fbbot</h1>
+        <h2>Facebook Chat Bot Webhook </h2>
+
+        <section id="downloads">
+          <a href="https://github.com/gunjank/service-fbbot/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/gunjank/service-fbbot/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/gunjank/service-fbbot" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a id="service-fbbot-aka-facebook-chat-bot" class="anchor" href="#service-fbbot-aka-facebook-chat-bot" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Service-fbbot AKA Facebook Chat Bot</h1>
+
+<p>Facebook Webhook : This microservice listens all events from Facebook and respond back as and when needed. It also have Facebook messenger template wrappers.</p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+See deployment for notes on how to deploy the project on a live system.</p>
+
+<h3>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prerequisites</h3>
+
+<ul>
+<li>Install <a href="https://nodejs.org/en/download/">Node.js</a> - Runtime for your application.</li>
+<li>
+<a href="https://git-scm.com/docs/git-clone">Clone</a> code to your local pc or development location : <code>git clone &lt;.git path&gt;</code> </li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/get-api-key">Get Google API Key</a></li>
+</ul>
+
+<h3>
+<a id="installing" class="anchor" href="#installing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installing</h3>
+
+<p><a href="https://docs.npmjs.com/getting-started/installing-npm-packages-locally">Add required dependencies</a> - <code>npm install</code> from your application root folder.</p>
+
+<h3>
+<a id="configuration-or-api-keys-for-local" class="anchor" href="#configuration-or-api-keys-for-local" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>configuration or api keys for local</h3>
+
+<p>Keep a file name <code>notToCommit.js</code> inside <code>src/config/</code> folder for local testing. It should not be committed and required values need to be available on cloud (<code>environment variable or services</code>). </p>
+
+<p>notToCommit.js - </p>
+
+<pre><code>'use strict';
+
+module.exports = {
+    app_secret: "facebook_app_secret",
+    page_token: "facebook_page_token",
+    verify_token: "facebook-page_verify_token"
+}
+
+</code></pre>
+
+<p>Application config-settings -   <code>src/config/settings.js</code> already have code to load required parameters from notToCommit file when running on local in place of cloud. </p>
+
+<h3>
+<a id="run" class="anchor" href="#run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>run</h3>
+
+<p>From your application root folder<code>npm start</code></p>
+
+<h3>
+<a id="swagger-rest-api" class="anchor" href="#swagger-rest-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Swagger Rest api</h3>
+
+<p>Application URL/documentation - Look on <code>src/config/settings.js</code> file for local port number cloud url/port settings. </p>
+
+<p><code>http://localhost:3003/documentation</code></p>
+
+<h2>
+<a id="deployment---pcf" class="anchor" href="#deployment---pcf" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deployment - PCF</h2>
+
+<p><a href="https://docs.cloudfoundry.org/devguide/deploy-apps/deploy-app.html">cf push</a> -f manifest.yml   </p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
