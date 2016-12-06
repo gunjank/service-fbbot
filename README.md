@@ -42,3 +42,6 @@ Application URL/documentation - Look on `src/config/settings.js` file for local 
 
 ## Deployment - PCF 
 [cf push](https://docs.cloudfoundry.org/devguide/deploy-apps/deploy-app.html) -f manifest.yml   
+
+## Citibike Architecture Design
+![alt Architecture Design](https://cloud.githubusercontent.com/assets/22801536/20931904/b1bf7854-bba0-11e6-9d33-30af9b671a76.jpg)
