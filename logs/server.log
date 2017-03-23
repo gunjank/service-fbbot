@@ -29,3 +29,4 @@
 {"event":"log","timestamp":1479853401191,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3003\"}]","pid":11208}
 {"event":"log","timestamp":1479853423553,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3003\"}]","pid":7020}
 {"event":"log","timestamp":1479864334707,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://USNY10242L02112:3003\"}]","pid":10452}
+{"event":"log","timestamp":1490236003397,"tags":["server"],"data":"started: [{\"labels\":[],\"uri\":\"http://dell7720:3003\"}]","pid":11048}

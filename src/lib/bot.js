@@ -1,7 +1,7 @@
 'use strict';
 
 const log = require('../config/logger'),
-    Bot = require('messenger-bot'),
+    Bot = require('./messenger-bot'),
     settings = require('../config/settings'),
     decisionTreeHandler = require('../handlers/decisionTreeHandler'),
     generator = require('./botTemplateGenerator');

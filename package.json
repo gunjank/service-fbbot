@@ -4,14 +4,10 @@
   "description": "FB Bot webhook ",
   "main": "index.js",
   "dependencies": {
-    "body-parser": "^1.15.2",
     "bunyan": "^1.8.1",
     "cfenv": "^1.0.3",
-    "express": "^4.14.0",
     "http": "0.0.0",
-    "messenger-bot": "^2.4.0",
     "request": "^2.75.0",
-
     "boom": "^2.8.0",
     "good": "^6.2.0",
     "good-console": "^6.1.2",
@@ -23,7 +19,6 @@
     "lodash": "^3.10.0",
     "lout": "^6.2.3",
     "vision": "^4.1.0"
-
   },
   "devDependencies": {},
   "scripts": {
